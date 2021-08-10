@@ -1,0 +1,19 @@
+version: '3'
+services:
+  gitlab:
+    image: 'gitlab/gitlab-ce'
+    restart: always
+    container_name: gitlab
+    hostname: gitlab
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'http://0.0.0.0' # http协议所使用的访问地址，ip是本机ip地址，默认80端口
+        gitlab_rails['gitlab_shell_ssh_port']=2234 # 此端口是run时22端口映射的2224端口
+    privileged: true
+    ports:
+      - 8929:80
+      - 2235:2234
+    volumes:
+      - ./config:/etc/gitlab
+      - ./logs:/var/log/gitlab
+      - ./data:/var/opt/gitlab
